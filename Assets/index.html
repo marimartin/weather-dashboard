@@ -19,7 +19,7 @@
         <div class="page-header">
             <h1>Weather Dashboard</h1>
         </div>
-
+        <!-- Sidebar containing search box and rendered buttons -->
         <div id="sidebar" class="col-lg-3">
             <div class="card-body">
                 <div class="input-group mb-3">
@@ -35,20 +35,24 @@
                         <input id="submit-city" type="submit" value="Search">
                     </form>
                 </div>
+                <!-- Buttons go here -->
                 <div id="buttons-div"></div>
             </div>
         </div>
+        <!-- Displays weather details -->
         <div id="display" class="col-lg-9">
-            <div id="words" class="row">
+            <div id="weather-details" class="row">
                 <div class="city"></div>
+                <div class="date"></div>
                 <img class="weather-icon"></img>
                 <div class="tempF"></div>
                 <div class="humidity"></div>
                 <div class="wind"></div>
                 <div class="UVindex"></div>
             </div>
+            <!-- Displays five day forecast -->
             <div id="five-day" class="row">
-                <h2>five day</h2>
+                <h2>Five Day Forecast:</h2>
                 <div class="five-day-block"></div>
                 <div class="five-day-block"></div>
                 <div class="five-day-block"></div>

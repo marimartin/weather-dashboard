@@ -22,17 +22,57 @@ function searchWeather(inputCity) {
 
         // Add content to HTML
         $(".city").html("<h1>" + response.name + " Weather Details</h1>");
+        $(".date").text(moment.unix(response.dt).format("L"));
         $(".weather-icon").attr("src", iconURL);
-        $(".humidity").text("Humidity: " + response.main.humidity);
+        $(".humidity").text("Humidity: " + response.main.humidity + "%");
         $(".wind").text("Wind Speed: " + response.wind.speed);
 
         // Convert temp to F
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
 
         // Add temp to HTML
-        $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
+        $(".tempF").text("Temperature: " + tempF.toFixed(2) + "°F");
+
+        localStorage.clear();
+        localStorage.setItem(inputCity, (""));
+        console.log(localStorage)
 
 
+    });
+}
+
+
+// Five Day
+function fiveDay(inputCity) {
+    var fivedayqueryURL = "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + inputCity + "&appid=" + APIKey;
+
+    $("#five-day").show();
+
+    $.ajax({
+        url: fivedayqueryURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(fivedayqueryURL);
+
+        var fiveDayBlocks = $(".five-day-block").empty();
+
+        response.list.map(function (listItem, index) {
+            listItem
+            console.log(moment.unix(listItem.dt).format("L"))
+            var $fiveDayDate = $("<p>").text(moment.unix(listItem.dt).format("L"));
+
+            var fiveDayIconCode = listItem.weather[0].icon;
+            var fiveDayIconURL = "http://openweathermap.org/img/wn/" + fiveDayIconCode + "@2x.png";
+            var $fiveDayIcon = $("<img>").attr("src", fiveDayIconURL);
+
+            var fiveDayTempF = (listItem.temp.max - 273.15) * 1.80 + 32;
+            var $fiveDayTemp = $("<p>").text("Temperature: " + fiveDayTempF.toFixed(0) + "°F");
+
+            var fiveDayHumidity = (listItem.humidity);
+            var $fiveDayHumidity = $("<p>").text("Humidity: " + fiveDayHumidity + "%");
+
+            fiveDayBlocks.eq(index).append($fiveDayDate, $fiveDayIcon, $fiveDayTemp, $fiveDayHumidity);
+        })
     });
 }
 
@@ -60,37 +100,3 @@ $("body").on("click", ".city-btn", function (event) {
     searchWeather(event.target.textContent);
     fiveDay(event.target.textContent);
 })
-
-// Five Day
-function fiveDay(inputCity) {
-    var fivedayqueryURL = "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + inputCity + "&appid=" + APIKey;
-
-    $("#five-day").show();
-
-    $.ajax({
-        url: fivedayqueryURL,
-        method: "GET"
-    }).then(function (response) {
-        console.log(fivedayqueryURL);
-
-        var fiveDayBlocks = $(".five-day-block").empty();
-
-        response.list.map(function (listItem, index) {
-            listItem
-            console.log(moment.unix(listItem.dt).format("L"))
-            var $fiveDayDate = $("<p>").text(moment.unix(listItem.dt).format("L"));
-
-            var fiveDayIconCode = listItem.weather[0].icon;
-            var fiveDayIconURL = "http://openweathermap.org/img/wn/" + fiveDayIconCode + "@2x.png";
-            var $fiveDayIcon = $("<img>").attr("src", fiveDayIconURL);
-
-            var fiveDayTempF = (listItem.temp.max - 273.15) * 1.80 + 32;
-            var $fiveDayTemp = $("<p>").text("Temperature: " + fiveDayTempF.toFixed(0) + "F");
-
-            var fiveDayHumidity = (listItem.humidity);
-            var $fiveDayHumidity = $("<p>").text(fiveDayHumidity + "%");
-
-            fiveDayBlocks.eq(index).append($fiveDayDate, $fiveDayIcon, $fiveDayTemp, $fiveDayHumidity);
-        })
-    });
-}
