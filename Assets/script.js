@@ -3,13 +3,22 @@ var APIKey = "166a433c57516f51dfab1f7edaed8413";
 
 $("#five-day").hide();
 
+// When page reloads
+function fiveDay(inputCity) {
+    var inputCity = localStorage.getItem(lastCity);
+
+    // Run searchWeather
+    searchWeather(inputCity);
+
+    // Run fiveDay
+    fiveDay(inputCity);
+}
+
+// Search and display weather details
 function searchWeather(inputCity) {
 
     // Build queryURL
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + inputCity + "," + inputCity + "&appid=" + APIKey;
-
-    console.log(queryURL);
-
 
     $.ajax({
         url: queryURL,
@@ -33,16 +42,15 @@ function searchWeather(inputCity) {
         // Add temp to HTML
         $(".tempF").text("Temperature: " + tempF.toFixed(2) + "°F");
 
+        var lastCity = "Last City";
         localStorage.clear();
-        localStorage.setItem(inputCity, (""));
+        localStorage.setItem(lastCity, inputCity);
         console.log(localStorage)
-
-
     });
 }
 
 
-// Five Day
+// Search for and display Five Day
 function fiveDay(inputCity) {
     var fivedayqueryURL = "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + inputCity + "&appid=" + APIKey;
 
@@ -58,7 +66,6 @@ function fiveDay(inputCity) {
 
         response.list.map(function (listItem, index) {
             listItem
-            console.log(moment.unix(listItem.dt).format("L"))
             var $fiveDayDate = $("<p>").text(moment.unix(listItem.dt).format("L"));
 
             var fiveDayIconCode = listItem.weather[0].icon;
@@ -95,6 +102,7 @@ $("#submit-city").on("click", function (event) {
     fiveDay(inputCity);
 });
 
+// Generating buttons on click
 $("body").on("click", ".city-btn", function (event) {
     console.log(event.target.textContent)
     searchWeather(event.target.textContent);
