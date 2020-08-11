@@ -108,3 +108,5 @@ $("body").on("click", ".city-btn", function (event) {
     searchWeather(event.target.textContent);
     fiveDay(event.target.textContent);
 })
+
+
