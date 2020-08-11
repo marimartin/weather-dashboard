@@ -1,0 +1,30 @@
+.page-header {
+    background-color: navy;
+    padding-top: 10px;
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#sidebar {
+    background-color: whitesmoke;
+    padding-bottom: 10px;
+    height: 510px;
+}
+
+#words {
+    height: 250px;
+    padding-left: 20px;
+    border-style: solid;
+    border-color: whitesmoke;
+    border-radius: 5px;
+    border-width: 2px;
+}
+
+#five-day {
+    margin-top: 10px;
+    height: 250px;
+    padding-left: 20px;
+}
+
+.page-header {
+    text-align: center;
+}
